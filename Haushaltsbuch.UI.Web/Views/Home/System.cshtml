@@ -1,0 +1,28 @@
+﻿@model HomeSystemViewModel
+@{
+    ViewData["Title"] = "System";
+}
+
+<h1>Systeminformationen</h1>
+
+<h2>Hostname: @Model.Hostname</h2>
+
+<h2>Umgebungsvariablen</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Key</td>
+        <td>Value</td>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (KeyValuePair<string, string> item in Model.EnvironmentVariables)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

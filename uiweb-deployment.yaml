@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\kirsta\Downloads\kompose-windows-amd64 (1).exe convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: uiweb
+  name: uiweb
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: uiweb
+    spec:
+      containers:
+      - env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+        - name: ASPNETCORE_URLS
+          value: http://*:80
+        - name: WEBAPI_CONNECTIONSTRING
+          value: http://webapi:5200/api/
+        image: andrekirst/haushaltsbuchuiweb
+        name: uiweb
+        ports:
+        - containerPort: 80
+        resources: {}
+      hostname: uiweb
+      restartPolicy: Always
+status: {}

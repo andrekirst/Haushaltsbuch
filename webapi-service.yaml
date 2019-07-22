@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\kirsta\Downloads\kompose-windows-amd64 (1).exe convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webapi
+  name: webapi
+spec:
+  ports:
+  - name: "5201"
+    port: 5201
+    targetPort: 5201
+  - name: "5200"
+    port: 5200
+    targetPort: 5200
+  selector:
+    io.kompose.service: webapi
+status:
+  loadBalancer: {}

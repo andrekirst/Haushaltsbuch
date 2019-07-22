@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    restart: always
+    volumes:
+      - data.mongodb:/etc/mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=01031990Pc
+  
+  eventstore:
+    image: eventstore/eventstore:latest
+    container_name: eventstore
+    hostname: eventstore
+    restart: always
+    ports:
+      - "1113:1113"
+      - "2113:2113"
+    volumes:
+      - data.eventstore:/var/lib/eventstore
+  
+  webapi:
+    image: andrekirst/haushaltsbuchwebapi:v2
+    container_name: webapi
+    hostname: webapi
+    restart: always
+    ports:
+      - "5201:5201"
+      - "5200:5200"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      #- ASPNETCORE_URLS=https://*:5001;http://*:5100
+      - ASPNETCORE_URLS=http://*:5200
+      - EVENTSTORE_CONNECTIONSTRING=tcp://eventstore:1113
+      - MONGODB_CONNECTIONSTRING=mongodb://root:01031990Pc@mongodb:27017
+  
+  uiweb:
+    image: andrekirst/haushaltsbuchuiweb:v2
+    container_name: uiweb
+    hostname: uiweb
+    restart: always
+    ports:
+      # - "443:443"
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      # - ASPNETCORE_URLS=https://*:443;http://*:80
+      - ASPNETCORE_URLS=http://*:80
+      - WEBAPI_CONNECTIONSTRING=http://webapi:5200/api/
+
+
+volumes:
+  data.mongodb:
+  data.eventstore:

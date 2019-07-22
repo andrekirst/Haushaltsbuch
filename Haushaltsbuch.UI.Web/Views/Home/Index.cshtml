@@ -1,0 +1,64 @@
+﻿@using Haushaltsbuch.Library.Domain
+@using Haushaltsbuch = Haushaltsbuch.Library.Domain.ReadModel.Haushaltsbuch
+@addTagHelper *, Haushaltsbuch.UI.Web
+@model HomeIndexViewModel
+
+@{
+    ViewData[index: "Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Haushaltsbücher</h1>
+
+    <p>
+        <a href="@Url.Action(action: "Add", controller: "Haushaltsbuch")" class="btn btn-outline-success">Neues Haushaltsbuch erstellen</a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Haushaltsbuch</th>
+                <th scope="col">Kassenbestand</th>
+                <th scope="col">Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Haushaltsbuch haushaltsbuch in Model.Haushaltsbücher)
+            {
+                <tr>
+                    <td>@haushaltsbuch.Name</td>
+                    <td class="text-right">
+                        @if (haushaltsbuch.Kassenbestand < 0)
+                        {
+                            <span class="text-danger" style="font-weight: 600;">@haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@haushaltsbuch.WährungName" fallback-symbol="@haushaltsbuch.WährungSymbol"></currency>
+                        }
+                        else
+                        {
+                            <span style="font-weight: 600;">@haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@haushaltsbuch.WährungName" fallback-symbol="@haushaltsbuch.WährungSymbol"></currency>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action(action: "Detail", controller: "Haushaltsbuch", values: new
+                             {
+                                 haushaltsbuchId = haushaltsbuch.Id
+                             })">Öffnen</a>
+                        <span class="text-muted">|</span>
+                        <a href="@Url.Action(action: "Add", controller: "Einzahlung", values: new
+                             {
+                                 haushaltsbuchId = haushaltsbuch.Id
+                             })">
+                            Einzahlen
+                        </a>
+                        <span class="text-muted">|</span>
+                        <a href="@Url.Action(action: "Add", controller: "Auszahlung", values: new
+                             {
+                                 haushaltsbuchId = haushaltsbuch.Id
+                             })">
+                            Auszahlen
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

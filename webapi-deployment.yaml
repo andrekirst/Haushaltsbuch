@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\kirsta\Downloads\kompose-windows-amd64 (1).exe convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: webapi
+  name: webapi
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: webapi
+    spec:
+      containers:
+      - env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+        - name: ASPNETCORE_URLS
+          value: http://*:5200
+        - name: EVENTSTORE_CONNECTIONSTRING
+          value: tcp://eventstore:1113
+        - name: MONGODB_CONNECTIONSTRING
+          value: mongodb://root:01031990Pc@mongodb:27017
+        image: andrekirst/haushaltsbuchwebapi
+        name: webapi
+        ports:
+        - containerPort: 5201
+        - containerPort: 5200
+        resources: {}
+      hostname: webapi
+      restartPolicy: Always
+status: {}
