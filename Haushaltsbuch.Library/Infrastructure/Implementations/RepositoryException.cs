@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Haushaltsbuch.Library.Infrastructure.Implementations
 {
     [Serializable]
-    internal class RepositoryException : Exception
+    public class RepositoryException : Exception
     {
         public RepositoryException()
         {

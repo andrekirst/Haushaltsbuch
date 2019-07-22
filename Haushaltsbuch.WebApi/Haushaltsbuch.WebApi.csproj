@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Haushaltsbuch.Domain.Haushaltsbuch\Haushaltsbuch.Domain.Haushaltsbuch.csproj" />
     <ProjectReference Include="..\Haushaltsbuch.Library\Haushaltsbuch.Library.csproj" />
   </ItemGroup>
 

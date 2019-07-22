@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.WebApi", "Hau
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.UI.Web", "Haushaltsbuch.UI.Web\Haushaltsbuch.UI.Web.csproj", "{E9FF898F-8DD8-482C-9C47-C796562576F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haushaltsbuch.Domain.Haushaltsbuch", "Haushaltsbuch.Domain.Haushaltsbuch\Haushaltsbuch.Domain.Haushaltsbuch.csproj", "{FED490F1-37FE-46D2-9E6E-D37FBA649984}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{E9FF898F-8DD8-482C-9C47-C796562576F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9FF898F-8DD8-482C-9C47-C796562576F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9FF898F-8DD8-482C-9C47-C796562576F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED490F1-37FE-46D2-9E6E-D37FBA649984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED490F1-37FE-46D2-9E6E-D37FBA649984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED490F1-37FE-46D2-9E6E-D37FBA649984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED490F1-37FE-46D2-9E6E-D37FBA649984}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{775D7AE6-9CE9-4094-BEE1-E055486A963B} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
 		{B3693C91-7614-460E-AD1F-C640F01EB296} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
 		{E9FF898F-8DD8-482C-9C47-C796562576F7} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
+		{FED490F1-37FE-46D2-9E6E-D37FBA649984} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3127CF3-DBD9-4A9F-A1B5-E3DDFFEB815D}
