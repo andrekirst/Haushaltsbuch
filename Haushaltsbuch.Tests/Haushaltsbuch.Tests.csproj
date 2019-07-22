@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Haushaltsbuch.Library\Haushaltsbuch.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DomainTests\" />
+  </ItemGroup>
+
 </Project>
