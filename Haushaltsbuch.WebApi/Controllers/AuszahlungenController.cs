@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Domain;
-using Haushaltsbuch.Library.Domain.Services;
-using Haushaltsbuch.WebApi.Models.Dto.Commands;
+using Haushaltsbuch.Domain.Haushaltsbuch;
+using Haushaltsbuch.Domain.Haushaltsbuch.Services;
+using Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto.Commands;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Haushaltsbuch.WebApi.Controllers
+namespace Haushaltsbuch.WebApi.Haushaltsbuch.Controllers
 {
     [Route(template: "api/[controller]")]
     [ApiController]
@@ -34,7 +34,7 @@ namespace Haushaltsbuch.WebApi.Controllers
         [HttpGet(template: "{haushaltsbuchId}")]
         public async Task<ActionResult<List<HaushaltsbuchAuszahlung>>> GetAuszahlungen(string haushaltsbuchId)
         {
-            IEnumerable<Library.Domain.ReadModel.HaushaltsbuchAuszahlung> auszahlungen = await HaushaltsbuchReader.GetAuszahlungenOfAsync(haushaltsbuchId: haushaltsbuchId);
+            IEnumerable<Domain.Haushaltsbuch.ReadModel.HaushaltsbuchAuszahlung> auszahlungen = await HaushaltsbuchReader.GetAuszahlungenOfAsync(haushaltsbuchId: haushaltsbuchId);
             return Ok(value: auszahlungen);
         }
     }

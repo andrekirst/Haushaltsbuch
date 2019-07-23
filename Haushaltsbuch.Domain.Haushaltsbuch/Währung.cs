@@ -1,4 +1,4 @@
-﻿namespace Haushaltsbuch.Library.Domain
+﻿namespace Haushaltsbuch.Domain.Haushaltsbuch
 {
     public class Währung
     {

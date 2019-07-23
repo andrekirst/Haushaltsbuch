@@ -2,29 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Domain;
-using Microsoft.AspNetCore.Mvc;
+using Haushaltsbuch.UI.Web.Localization;
 using Haushaltsbuch.UI.Web.Models;
 using Haushaltsbuch.UI.Web.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Haushaltsbuch.UI.Web.Controllers
 {
     public class HomeController : Controller
     {
         private IHaushaltsbuchService HaushaltsbuchService { get; }
+        private IStringLocalizer<HomeController> Localizer { get; }
+        private IStringLocalizer<SharedRessource> SharedLocalizer { get; }
 
         public HomeController(
-            IHaushaltsbuchService haushaltsbuchService)
+            IHaushaltsbuchService haushaltsbuchService,
+            IStringLocalizer<HomeController> localizer,
+            IStringLocalizer<SharedRessource> sharedLocalizer)
         {
             HaushaltsbuchService = haushaltsbuchService;
+            Localizer = localizer;
+            SharedLocalizer = sharedLocalizer;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<Library.Domain.ReadModel.Haushaltsbuch> haushaltsbücher = await HaushaltsbuchService.GetAllHaushaltsbuecher();
+            List<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch> haushaltsbücher = await HaushaltsbuchService.GetAllHaushaltsbuecher();
             HomeIndexViewModel viewModel = new HomeIndexViewModel
             {
                 Haushaltsbücher = haushaltsbücher

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Domain.DomainEvents;
-using Haushaltsbuch.Library.Domain.ReadModel.Persistance;
-using Haushaltsbuch.Library.Domain.Services;
+using Haushaltsbuch.Domain.Haushaltsbuch.DomainEvents;
+using Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance;
+using Haushaltsbuch.Domain.Haushaltsbuch.Services;
 
-namespace Haushaltsbuch.Library.Domain.EventHandlers
+namespace Haushaltsbuch.Domain.Haushaltsbuch.EventHandlers
 {
     public class HaushaltsbuchEventHandler :
         IDomainEventHandler<HaushaltsbuchId, HaushaltsbuchErstelltEvent>,

@@ -1,0 +1,34 @@
+﻿@model Haushaltsbuch.UI.Web.Areas.Haushaltsbuch.Models.HaushaltsbuchAddViewModel
+@{
+    ViewData[index: "Title"] = "Add";
+}
+
+<h1>Neues Haushaltsbuch anlegen</h1>
+
+<form asp-action="Save" asp-controller="Haushaltsbuch" asp-area="Haushaltsbuch">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="name">Name</label>
+            @Html.TextBoxFor(expression: m => m.Name, htmlAttributes: new
+            {
+                @class = "form-control",
+                id = "name",
+                aria_describedby = "nameHelp",
+                placeholder = "Name eingeben"
+            })
+            <small id="nameHelp" class="form-text text-muted">Name des Haushaltsbuches</small>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="währung">Währung</label>
+            @Html.DropDownListFor(expression: m => m.NeueWährung, selectList: Model.WährungenItems, htmlAttributes: new
+            {
+                @class = "form-control",
+                id = "währung"
+            })
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Erstellen</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark">Zurück</a>
+</form>

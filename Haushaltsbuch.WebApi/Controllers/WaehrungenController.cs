@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Domain;
-using Haushaltsbuch.Library.Domain.Services;
+using Haushaltsbuch.Domain.Haushaltsbuch;
+using Haushaltsbuch.Domain.Haushaltsbuch.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Haushaltsbuch.WebApi.Controllers
+namespace Haushaltsbuch.WebApi.Haushaltsbuch.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

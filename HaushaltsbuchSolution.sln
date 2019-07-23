@@ -3,17 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Haushaltsbuch", "Haushaltsbuch", "{B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.Library", "Haushaltsbuch.Library\Haushaltsbuch.Library.csproj", "{66B748FD-622A-4EB8-87A5-7EE90F3BDBB7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.Tests", "Haushaltsbuch.Tests\Haushaltsbuch.Tests.csproj", "{775D7AE6-9CE9-4094-BEE1-E055486A963B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.WebApi", "Haushaltsbuch.WebApi\Haushaltsbuch.WebApi.csproj", "{B3693C91-7614-460E-AD1F-C640F01EB296}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.WebApi.Haushaltsbuch", "Haushaltsbuch.WebApi\Haushaltsbuch.WebApi.Haushaltsbuch.csproj", "{B3693C91-7614-460E-AD1F-C640F01EB296}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.UI.Web", "Haushaltsbuch.UI.Web\Haushaltsbuch.UI.Web.csproj", "{E9FF898F-8DD8-482C-9C47-C796562576F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haushaltsbuch.Domain.Haushaltsbuch", "Haushaltsbuch.Domain.Haushaltsbuch\Haushaltsbuch.Domain.Haushaltsbuch.csproj", "{FED490F1-37FE-46D2-9E6E-D37FBA649984}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.Domain.Haushaltsbuch", "Haushaltsbuch.Domain.Haushaltsbuch\Haushaltsbuch.Domain.Haushaltsbuch.csproj", "{FED490F1-37FE-46D2-9E6E-D37FBA649984}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.Domain.Benutzerkonto", "Haushaltsbuch.Domain.Benutzerkonto\Haushaltsbuch.Domain.Benutzerkonto.csproj", "{63FCD453-760B-4F29-8747-C1243911E1C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haushaltsbuch.WebApi.Benutzerkonto", "Haushaltsbuch.WebApi.Benutzerkonto\Haushaltsbuch.WebApi.Benutzerkonto.csproj", "{AAB965DC-6C89-447E-97C9-EA489C9B6DAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Haushaltsbuch", "Haushaltsbuch", "{0EEC967F-AD4C-416A-AF93-AB45D558AB88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benutzerkonto", "Benutzerkonto", "{11E6B092-A0FA-463D-A850-B854867B2E96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{086356D5-B64A-455E-AC89-F5C38CB3B4E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,16 +49,25 @@ Global
 		{FED490F1-37FE-46D2-9E6E-D37FBA649984}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FED490F1-37FE-46D2-9E6E-D37FBA649984}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FED490F1-37FE-46D2-9E6E-D37FBA649984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63FCD453-760B-4F29-8747-C1243911E1C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63FCD453-760B-4F29-8747-C1243911E1C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63FCD453-760B-4F29-8747-C1243911E1C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63FCD453-760B-4F29-8747-C1243911E1C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAB965DC-6C89-447E-97C9-EA489C9B6DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAB965DC-6C89-447E-97C9-EA489C9B6DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAB965DC-6C89-447E-97C9-EA489C9B6DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAB965DC-6C89-447E-97C9-EA489C9B6DAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{66B748FD-622A-4EB8-87A5-7EE90F3BDBB7} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
-		{775D7AE6-9CE9-4094-BEE1-E055486A963B} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
-		{B3693C91-7614-460E-AD1F-C640F01EB296} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
-		{E9FF898F-8DD8-482C-9C47-C796562576F7} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
-		{FED490F1-37FE-46D2-9E6E-D37FBA649984} = {B1951660-D3BA-4AFF-B5DB-B4DB90F5467E}
+		{B3693C91-7614-460E-AD1F-C640F01EB296} = {0EEC967F-AD4C-416A-AF93-AB45D558AB88}
+		{FED490F1-37FE-46D2-9E6E-D37FBA649984} = {0EEC967F-AD4C-416A-AF93-AB45D558AB88}
+		{63FCD453-760B-4F29-8747-C1243911E1C3} = {11E6B092-A0FA-463D-A850-B854867B2E96}
+		{AAB965DC-6C89-447E-97C9-EA489C9B6DAB} = {11E6B092-A0FA-463D-A850-B854867B2E96}
+		{0EEC967F-AD4C-416A-AF93-AB45D558AB88} = {086356D5-B64A-455E-AC89-F5C38CB3B4E5}
+		{11E6B092-A0FA-463D-A850-B854867B2E96} = {086356D5-B64A-455E-AC89-F5C38CB3B4E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3127CF3-DBD9-4A9F-A1B5-E3DDFFEB815D}

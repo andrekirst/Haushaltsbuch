@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Haushaltsbuch.Library.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Haushaltsbuch.WebApi.Controllers
+namespace Haushaltsbuch.WebApi.Haushaltsbuch.Controllers
 {
     [Route(template: "api/[controller]")]
     [ApiController]

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Domain.DomainEvents;
+using Haushaltsbuch.Domain.Haushaltsbuch.DomainEvents;
 using Haushaltsbuch.Library.Infrastructure.Interfaces;
 
-namespace Haushaltsbuch.Library.Domain.Services
+namespace Haushaltsbuch.Domain.Haushaltsbuch.Services
 {
     public class HaushaltsbuchWriter : IHaushaltsbuchWriter
     {

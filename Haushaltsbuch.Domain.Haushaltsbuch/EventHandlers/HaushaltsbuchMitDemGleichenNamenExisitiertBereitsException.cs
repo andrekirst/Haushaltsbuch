@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Haushaltsbuch.Library.Domain.EventHandlers
+namespace Haushaltsbuch.Domain.Haushaltsbuch.EventHandlers
 {
     [Serializable]
     internal class HaushaltsbuchMitDemGleichenNamenExisitiertBereitsException : Exception

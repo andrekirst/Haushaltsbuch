@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HaushaltsbuchAuszahlung = Haushaltsbuch.Library.Domain.ReadModel.HaushaltsbuchAuszahlung;
-using HaushaltsbuchEinzahlung = Haushaltsbuch.Library.Domain.ReadModel.HaushaltsbuchEinzahlung;
-using Haushaltsbuch.WebApi.Models.Dto.Commands;
-using Haushaltsbuch.WebApi.Models.Dto;
+using Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto;
+using Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto.Commands;
+using HaushaltsbuchAuszahlung = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.HaushaltsbuchAuszahlung;
+using HaushaltsbuchEinzahlung = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.HaushaltsbuchEinzahlung;
 
 namespace Haushaltsbuch.UI.Web.Services
 {
     public interface IHaushaltsbuchService
     {
         Task<bool> ErstelleHaushaltsbuch(string name, string währung);
-        Task<List<Library.Domain.ReadModel.Haushaltsbuch>> GetAllHaushaltsbuecher();
-        Task<Library.Domain.ReadModel.Haushaltsbuch> GetHaushaltsbuchById(string haushaltsbuchId);
-        Task<Library.Domain.ReadModel.Haushaltsbuch> GetHaushaltsbuchByName(string name);
+        Task<List<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>> GetAllHaushaltsbuecher();
+        Task<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch> GetHaushaltsbuchById(string haushaltsbuchId);
+        Task<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch> GetHaushaltsbuchByName(string name);
         Task<List<HaushaltsbuchAuszahlung>> GetAuszahlungen(string haushaltsbuchId);
         Task<List<HaushaltsbuchEinzahlung>> GetEinzahlungen(string haushaltsbuchId);
         Task<List<Währung>> GetWährungen();

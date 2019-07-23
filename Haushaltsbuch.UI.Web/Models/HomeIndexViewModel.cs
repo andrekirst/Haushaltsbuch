@@ -4,6 +4,6 @@ namespace Haushaltsbuch.UI.Web.Models
 {
     public class HomeIndexViewModel
     {
-        public List<Library.Domain.ReadModel.Haushaltsbuch> Haushaltsbücher { get; set; } = new List<Library.Domain.ReadModel.Haushaltsbuch>();
+        public List<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch> Haushaltsbücher { get; set; } = new List<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Haushaltsbuch.Library.Domain.Queries
+﻿namespace Haushaltsbuch.Domain.Haushaltsbuch.Queries
 {
     public class KategorieAusgabe
     {

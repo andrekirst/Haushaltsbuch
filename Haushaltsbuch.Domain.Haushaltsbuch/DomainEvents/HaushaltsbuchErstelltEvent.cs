@@ -1,6 +1,6 @@
 ﻿using Haushaltsbuch.Library.Infrastructure.Interfaces;
 
-namespace Haushaltsbuch.Library.Domain.DomainEvents
+namespace Haushaltsbuch.Domain.Haushaltsbuch.DomainEvents
 {
     public class HaushaltsbuchErstelltEvent : DomainEventBase<HaushaltsbuchId>
     {

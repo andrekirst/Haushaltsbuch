@@ -3,13 +3,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Haushaltsbuch.Library.Infrastructure.Extensions;
-using Haushaltsbuch.WebApi.Models.Dto;
-using Haushaltsbuch.WebApi.Models.Dto.Commands;
+using Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto;
+using Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto.Commands;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
-using HaushaltsbuchAuszahlung = Haushaltsbuch.Library.Domain.ReadModel.HaushaltsbuchAuszahlung;
-using HaushaltsbuchEinzahlung = Haushaltsbuch.Library.Domain.ReadModel.HaushaltsbuchEinzahlung;
+using HaushaltsbuchAuszahlung = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.HaushaltsbuchAuszahlung;
+using HaushaltsbuchEinzahlung = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.HaushaltsbuchEinzahlung;
 
 namespace Haushaltsbuch.UI.Web.Services
 {
@@ -30,30 +30,30 @@ namespace Haushaltsbuch.UI.Web.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<List<Library.Domain.ReadModel.Haushaltsbuch>> GetAllHaushaltsbuecher()
+        public async Task<List<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>> GetAllHaushaltsbuecher()
         {
             HttpResponseMessage response = await Client.GetAsync(requestUri: "haushaltsbuch");
 
             return response.IsSuccessStatusCode
-                ? JsonConvert.DeserializeObject<List<Library.Domain.ReadModel.Haushaltsbuch>>(value: await response.Content.ReadAsStringAsync())
+                ? JsonConvert.DeserializeObject<List<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>>(value: await response.Content.ReadAsStringAsync())
                 : null;
         }
 
-        public async Task<Library.Domain.ReadModel.Haushaltsbuch> GetHaushaltsbuchById(string haushaltsbuchId)
+        public async Task<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch> GetHaushaltsbuchById(string haushaltsbuchId)
         {
             HttpResponseMessage response = await Client.GetAsync(requestUri: $"haushaltsbuch/{haushaltsbuchId}");
 
             return response.IsSuccessStatusCode
-                ? JsonConvert.DeserializeObject<Library.Domain.ReadModel.Haushaltsbuch>(value: await response.Content.ReadAsStringAsync())
+                ? JsonConvert.DeserializeObject<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>(value: await response.Content.ReadAsStringAsync())
                 : null;
         }
 
-        public async Task<Library.Domain.ReadModel.Haushaltsbuch> GetHaushaltsbuchByName(string name)
+        public async Task<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch> GetHaushaltsbuchByName(string name)
         {
             HttpResponseMessage response = await Client.GetAsync(requestUri: $"haushaltsbuch/search?name={name}");
 
             return response.IsSuccessStatusCode
-                ? JsonConvert.DeserializeObject<Library.Domain.ReadModel.Haushaltsbuch>(
+                ? JsonConvert.DeserializeObject<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>(
                     value: await response.Content.ReadAsStringAsync())
                 : null;
         }

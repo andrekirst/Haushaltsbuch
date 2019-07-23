@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using EventStore.ClientAPI;
 using FluentTimeSpan;
-using Haushaltsbuch.Library.Domain;
-using Haushaltsbuch.Library.Domain.DomainEvents;
-using Haushaltsbuch.Library.Domain.EventHandlers;
-using Haushaltsbuch.Library.Domain.Queries;
-using Haushaltsbuch.Library.Domain.ReadModel.Persistance;
-using Haushaltsbuch.Library.Domain.Services;
+using Haushaltsbuch.Domain.Haushaltsbuch;
+using Haushaltsbuch.Domain.Haushaltsbuch.DomainEvents;
+using Haushaltsbuch.Domain.Haushaltsbuch.EventHandlers;
+using Haushaltsbuch.Domain.Haushaltsbuch.Queries;
+using Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance;
+using Haushaltsbuch.Domain.Haushaltsbuch.Services;
 using Haushaltsbuch.Library.Infrastructure;
 using Haushaltsbuch.Library.Infrastructure.Implementations;
 using Haushaltsbuch.Library.Infrastructure.Interfaces;
@@ -17,8 +17,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
+using HaushaltsbuchAuszahlung = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.HaushaltsbuchAuszahlung;
+using HaushaltsbuchEinzahlung = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.HaushaltsbuchEinzahlung;
 
-namespace Haushaltsbuch.WebApi
+namespace Haushaltsbuch.WebApi.Haushaltsbuch
 {
     public class Startup
     {
@@ -64,29 +66,29 @@ namespace Haushaltsbuch.WebApi
             services.AddTransient<ITransientDomainEventPublisher, TransientDomainEventPublisherSubscriber>();
             services.AddTransient<ITransientDomainEventSubscriber, TransientDomainEventPublisherSubscriber>();
             services.AddTransient<
-                IRepository<Library.Domain.Haushaltsbuch, HaushaltsbuchId>,
-                EventSourcingRepository<Library.Domain.Haushaltsbuch, HaushaltsbuchId>>();
+                IRepository<Domain.Haushaltsbuch.Haushaltsbuch, HaushaltsbuchId>,
+                EventSourcingRepository<Domain.Haushaltsbuch.Haushaltsbuch, HaushaltsbuchId>>();
             services.AddSingleton<IEventStore, Library.Infrastructure.Implementations.EventStore>();
             services.AddSingleton<IMongoClient>(implementationFactory: factory => new MongoClient(connectionString: mongoDbConnectionString));
             services.AddSingleton<IMongoDatabase>(implementationFactory: factory => factory.GetRequiredService<IMongoClient>().GetDatabase(name: "HaushaltsbuchReadModel"));
             services.AddTransient<
-                IReadOnlyRepository<Library.Domain.ReadModel.Haushaltsbuch>,
-                MongoDbRepository<Library.Domain.ReadModel.Haushaltsbuch>>();
+                IReadOnlyRepository<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>,
+                MongoDbRepository<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>>();
             services.AddTransient<
-                IRepository<Library.Domain.ReadModel.Haushaltsbuch>,
-                MongoDbRepository<Library.Domain.ReadModel.Haushaltsbuch>>();
+                IRepository<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>,
+                MongoDbRepository<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>>();
             services.AddTransient<
-                IReadOnlyRepository<Library.Domain.ReadModel.HaushaltsbuchEinzahlung>,
-                MongoDbRepository<Library.Domain.ReadModel.HaushaltsbuchEinzahlung>>();
+                IReadOnlyRepository<HaushaltsbuchEinzahlung>,
+                MongoDbRepository<HaushaltsbuchEinzahlung>>();
             services.AddTransient<
-                IRepository<Library.Domain.ReadModel.HaushaltsbuchEinzahlung>,
-                MongoDbRepository<Library.Domain.ReadModel.HaushaltsbuchEinzahlung>>();
+                IRepository<HaushaltsbuchEinzahlung>,
+                MongoDbRepository<HaushaltsbuchEinzahlung>>();
             services.AddTransient<
-                IReadOnlyRepository<Library.Domain.ReadModel.HaushaltsbuchAuszahlung>,
-                MongoDbRepository<Library.Domain.ReadModel.HaushaltsbuchAuszahlung>>();
+                IReadOnlyRepository<HaushaltsbuchAuszahlung>,
+                MongoDbRepository<HaushaltsbuchAuszahlung>>();
             services.AddTransient<
-                IRepository<Library.Domain.ReadModel.HaushaltsbuchAuszahlung>,
-                MongoDbRepository<Library.Domain.ReadModel.HaushaltsbuchAuszahlung>>();
+                IRepository<HaushaltsbuchAuszahlung>,
+                MongoDbRepository<HaushaltsbuchAuszahlung>>();
             services.AddTransient<IDomainEventHandler<HaushaltsbuchId, HaushaltsbuchErstelltEvent>, HaushaltsbuchEventHandler>();
             services.AddTransient<IDomainEventHandler<HaushaltsbuchId, InHaushaltsbuchEingezahltEvent>, HaushaltsbuchEventHandler>();
             services.AddTransient<IDomainEventHandler<HaushaltsbuchId, AusHaltshaltsbuchAusgezahltEvent>, HaushaltsbuchEventHandler>();

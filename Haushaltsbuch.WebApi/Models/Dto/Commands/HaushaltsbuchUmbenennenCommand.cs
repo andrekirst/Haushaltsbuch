@@ -1,4 +1,4 @@
-﻿namespace Haushaltsbuch.WebApi.Models.Dto.Commands
+﻿namespace Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto.Commands
 {
     public class HaushaltsbuchUmbenennenCommand
     {

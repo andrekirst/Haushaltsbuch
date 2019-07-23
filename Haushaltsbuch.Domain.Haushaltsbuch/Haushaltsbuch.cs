@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using EnsureThat;
-using Haushaltsbuch.Library.Domain.DomainEvents;
+using Haushaltsbuch.Domain.Haushaltsbuch.DomainEvents;
 using Haushaltsbuch.Library.Infrastructure.Interfaces;
 
-namespace Haushaltsbuch.Library.Domain
+namespace Haushaltsbuch.Domain.Haushaltsbuch
 {
     public class Haushaltsbuch : AggregateBase<HaushaltsbuchId>,
         IApplyEvent<HaushaltsbuchErstelltEvent>,

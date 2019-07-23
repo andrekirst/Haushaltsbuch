@@ -1,7 +1,7 @@
 ﻿using System;
 using Haushaltsbuch.Library.Infrastructure.Interfaces;
 
-namespace Haushaltsbuch.Library.Domain.Commands
+namespace Haushaltsbuch.Domain.Haushaltsbuch.Commands
 {
     public class InHaushaltsbuchEinzahlenCommand : Command
     {

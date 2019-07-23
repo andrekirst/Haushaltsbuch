@@ -1,6 +1,7 @@
-﻿@using Haushaltsbuch.Library.Domain
-@using Haushaltsbuch = Haushaltsbuch.Library.Domain.ReadModel.Haushaltsbuch
-@addTagHelper *, Haushaltsbuch.UI.Web
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Haushaltsbuch = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Haushaltsbuch
+@using HomeIndexViewModel = Haushaltsbuch.UI.Web.Models.HomeIndexViewModel
+@inject IViewLocalizer Localizer
 @model HomeIndexViewModel
 
 @{
@@ -8,10 +9,12 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Haushaltsbücher</h1>
+    <h1 class="display-4">@Localizer[name: "Haushaltsbücher"]</h1>
 
     <p>
-        <a href="@Url.Action(action: "Add", controller: "Haushaltsbuch")" class="btn btn-outline-success">Neues Haushaltsbuch erstellen</a>
+        <a asp-area="Haushaltsbuch" asp-controller="Haushaltsbuch" asp-action="Add" class="btn btn-outline-success">
+            @Localizer[name: "Neues Haushaltsbuch erstellen"]
+        </a>
     </p>
 
     <table class="table table-striped">
@@ -38,24 +41,24 @@
                         }
                     </td>
                     <td>
-                        <a href="@Url.Action(action: "Detail", controller: "Haushaltsbuch", values: new
-                             {
-                                 haushaltsbuchId = haushaltsbuch.Id
-                             })">Öffnen</a>
+                        <a asp-area="Haushaltsbuch"
+                           asp-controller="Haushaltsbuch"
+                           asp-action="Detail"
+                           asp-route-haushaltsbuchId="@haushaltsbuch.Id">Öffnen</a>
+
                         <span class="text-muted">|</span>
-                        <a href="@Url.Action(action: "Add", controller: "Einzahlung", values: new
-                             {
-                                 haushaltsbuchId = haushaltsbuch.Id
-                             })">
-                            Einzahlen
-                        </a>
+
+                        <a asp-area="Haushaltsbuch"
+                           asp-controller="Einzahlung"
+                           asp-action="Add"
+                           asp-route-haushaltsbuchId="@haushaltsbuch.Id">Einzahlen</a>
+
                         <span class="text-muted">|</span>
-                        <a href="@Url.Action(action: "Add", controller: "Auszahlung", values: new
-                             {
-                                 haushaltsbuchId = haushaltsbuch.Id
-                             })">
-                            Auszahlen
-                        </a>
+
+                        <a asp-area="Haushaltsbuch"
+                           asp-controller="Auszahlung"
+                           asp-action="Add"
+                           asp-route-haushaltsbuchId="@haushaltsbuch.Id">Auszahlen</a>
                     </td>
                 </tr>
             }

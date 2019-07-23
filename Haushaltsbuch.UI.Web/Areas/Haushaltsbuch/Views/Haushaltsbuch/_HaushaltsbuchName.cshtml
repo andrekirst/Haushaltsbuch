@@ -1,0 +1,61 @@
+﻿@model Haushaltsbuch.UI.Web.Areas.Haushaltsbuch.Models.HaushaltsbuchIndexViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="visible justify-content-center" id="div-haushatsbuch-name-header">
+    <span id="haushaltsbuch-name" style="font-size: 2em;">@Model.Haushaltsbuch.Name</span> <i class="fas fa-pen" onclick="editHaushaltsbuchName()"></i>
+</div>
+<div class="d-none mb-3" id="div-haushatsbuch-name-edit">
+    <div class="form-row">
+        <div class="col-8">
+            <input class="form-control" type="text" value="@Model.Haushaltsbuch.Name" id="name" name="name" />
+        </div>
+        <div class="col-4">
+            <button class="btn btn-success" id="submit">Speichern</button>
+            <button class="btn btn-outline-secondary" type="reset" onclick="resetHaushaltsbuchNameForm()">Abbrechen</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function editHaushaltsbuchName() {
+        $('#div-haushatsbuch-name-header').removeClass('visible');
+        $('#div-haushatsbuch-name-header').addClass('d-none');
+
+        $('#div-haushatsbuch-name-edit').removeClass('d-none');
+        $('#div-haushatsbuch-name-edit').addClass('visible');
+
+        $('#name').select();
+        $('#name').mouseup(function() {
+            $('#name').unbind('mouseup');
+            return false;
+        });
+    }
+
+    function resetHaushaltsbuchNameForm() {
+        $('#div-haushatsbuch-name-header').removeClass('d-none');
+        $('#div-haushatsbuch-name-header').addClass('visible');
+
+        $('#div-haushatsbuch-name-edit').removeClass('visible');
+        $('#div-haushatsbuch-name-edit').addClass('d-none');
+    }
+
+    $(document).ready(function () {
+        $('#submit').on('click',
+            function () {
+                $.ajax({
+                    url: '@Url.Action(action: "UpdateName", values: new { haushaltsbuchId = Model.Haushaltsbuch.Id })',
+                    type: 'PUT',
+                    data: { name: $('#name').val() },
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function () {
+                        $('#haushaltsbuch-name').text($('#name').val());
+                        resetHaushaltsbuchNameForm();
+                    },
+                    error: function() {
+                        resetHaushaltsbuchNameForm();
+                    }
+                });
+            });
+    });
+
+</script>

@@ -1,0 +1,106 @@
+﻿@using Haushaltsbuch.Domain.Haushaltsbuch.ReadModel
+@using Haushaltsbuch.UI.Web.Extensions
+@using HaushaltsbuchIndexViewModel = Haushaltsbuch.UI.Web.Areas.Haushaltsbuch.Models.HaushaltsbuchIndexViewModel
+
+@addTagHelper *, Haushaltsbuch.UI.Web
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model HaushaltsbuchIndexViewModel
+@{
+    ViewData[index: "Title"] = "Haushaltsbuch " + Model.Haushaltsbuch.Name;
+}
+
+@{ await Html.RenderPartialAsync(partialViewName: "_HaushaltsbuchName", model: Model);}
+
+<p style="font-size: xx-large;">
+    Kassenbestand:
+    @if (Model.Haushaltsbuch.Kassenbestand < 0)
+    {
+        <span class="text-danger" style="font-weight: 600;">@Model.Haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@Model.Haushaltsbuch.WährungName" fallback-symbol="@Model.Haushaltsbuch.WährungSymbol"></currency>
+    }
+    else
+    {
+        <span style="font-weight: 600;">@Model.Haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@Model.Haushaltsbuch.WährungName" fallback-symbol="@Model.Haushaltsbuch.WährungSymbol"></currency>
+    }
+</p>
+
+<p>
+    <a href="@Url.Action(action: "Add", controller: "Einzahlung", values: new { haushaltsbuchId = Model.Haushaltsbuch.Id })" class="btn btn-outline-primary">Neue Einzahlung</a>
+    <a href="@Url.Action(action: "Add", controller: "Auszahlung", values: new { haushaltsbuchId = Model.Haushaltsbuch.Id })" class="btn btn-outline-danger">Neue Auszahlung</a>
+</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p class="font-weight-bold text-primary" style="font-size: xx-large;">Einzahlungen</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Datum</th>
+                        <th scope="col" class="text-right">Betrag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (HaushaltsbuchEinzahlung einzahlung in Model.Einzahlungen)
+                    {
+                        <tr>
+                            <td>@einzahlung.Einzahlungsdatum.ToLocalTime().ToString(format: "dd.MM.yyyy")</td>
+                            <td class="text-right text-primary" style="font-weight: 600;">@einzahlung.Betrag.ToString(format: "#,##0.00") <currency currency-name="@Model.Haushaltsbuch.WährungName" fallback-symbol="@Model.Haushaltsbuch.WährungSymbol"></currency></td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot class="bg-primary">
+                    <tr>
+                        <td class="text-light align-middle" style="font-size: large;">@Model.Einzahlungen.Count() Einzahlungen</td>
+                        <td class="text-right text-light" style="font-size: x-large;">
+                            <div class="d-block">
+                                <span style="text-decoration: underline;">@Model.Einzahlungen.Sum(selector: einzahlung => einzahlung.Betrag).ToString(format: "#,##0.00")</span> <currency currency-name="@Model.Haushaltsbuch.WährungName" fallback-symbol="@Model.Haushaltsbuch.WährungSymbol"></currency>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="col">
+            <p class="text-danger font-weight-bold" style="font-size: xx-large;">Auszahlungen</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Datum</th>
+                        <th scope="col" class="text-right">Betrag</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Kategorie</th>
+                        <th scope="col">Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (HaushaltsbuchAuszahlung auszahlung in Model.Auszahlungen)
+                    {
+                        <tr>
+                            <td>@auszahlung.Auszahlungsdatum.ToLocalTime().ToString(format: "dd.MM.yyyy")</td>
+                            <td class="text-right text-danger" style="font-weight: 600;">@auszahlung.Betrag.ToString(format: "#,##0.00") <currency currency-name="@Model.Haushaltsbuch.WährungName" fallback-symbol="@Model.Haushaltsbuch.WährungSymbol"></currency></td>
+                            <td class="d-none d-sm-table-cell">@auszahlung.Kategorie?.Name</td>
+                            <td>
+                                <a href="#">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot class="bg-danger">
+                    <tr>
+                        <td class="text-light align-middle" style="font-size: large;">
+                            @Model.Auszahlungen.Count() Auszahlungen
+                        </td>
+                        <td class="text-light text-right" style="font-size: x-large;">
+                            <div class="d-block">
+                                <span style="text-decoration: underline;">@Model.Auszahlungen.Sum(selector: auszahlung => auszahlung.Betrag).ToString(format: "#,##0.00")</span> <currency currency-name="@Model.Haushaltsbuch.WährungName" fallback-symbol="@Model.Haushaltsbuch.WährungSymbol"></currency>
+                            </div>
+                        </td>
+                        <td class="text-light d-none d-sm-table-cell" style="font-size: x-large;"></td>
+                        <td class="text-light" style="font-size: x-large;"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

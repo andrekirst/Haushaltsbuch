@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Haushaltsbuch.WebApi
+namespace Haushaltsbuch.WebApi.Haushaltsbuch
 {
     public class Program
     {

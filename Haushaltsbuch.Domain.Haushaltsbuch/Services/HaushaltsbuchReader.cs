@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Domain.ReadModel.Persistance;
+using Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance;
 
-namespace Haushaltsbuch.Library.Domain.Services
+namespace Haushaltsbuch.Domain.Haushaltsbuch.Services
 {
     public class HaushaltsbuchReader : IHaushaltsbuchReader
     {

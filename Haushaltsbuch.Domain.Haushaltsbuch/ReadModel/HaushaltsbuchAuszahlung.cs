@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Haushaltsbuch.Library.Domain.ReadModel
+namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel
 {
     public class HaushaltsbuchAuszahlung : IReadEntity
     {

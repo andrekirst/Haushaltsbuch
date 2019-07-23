@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Haushaltsbuch.Library.Domain.Services
+namespace Haushaltsbuch.Domain.Haushaltsbuch.Services
 {
     public interface IHaushaltsbuchWriter
     {

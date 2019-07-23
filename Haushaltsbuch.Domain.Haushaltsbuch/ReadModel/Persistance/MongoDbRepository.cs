@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Haushaltsbuch.Library.Infrastructure.Implementations;
 using MongoDB.Driver;
 
-namespace Haushaltsbuch.Library.Domain.ReadModel.Persistance
+namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance
 {
     public class MongoDbRepository<TReadEntity> : IRepository<TReadEntity>
         where TReadEntity : IReadEntity

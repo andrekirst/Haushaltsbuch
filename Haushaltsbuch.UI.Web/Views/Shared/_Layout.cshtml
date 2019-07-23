@@ -41,9 +41,9 @@
     <script src="~/lib/font-awesome/js/all.min.js"></script>
 
     @RenderSection(name: "Scripts", required: false)
-    
+
     <style>
-        .dropdown-menu{
+        .dropdown-menu {
             top: 60px;
             right: 0;
             left: unset;
@@ -52,14 +52,15 @@
             padding-bottom: 0;
             padding: 0;
         }
-        .dropdown-menu:before{
-            content: "";
-            position: absolute;
-            top: -20px;
-            right: 12px;
-            border:10px solid #343A40;
-            border-color: transparent transparent #343A40 transparent;
-        }
+
+            .dropdown-menu:before {
+                content: "";
+                position: absolute;
+                top: -20px;
+                right: 12px;
+                border: 10px solid #343A40;
+                border-color: transparent transparent #343A40 transparent;
+            }
     </style>
 </head>
 <body>
@@ -77,10 +78,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="System">Systeminformationen</a>
+                            <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="Index">
+                                <i class="far fa-user-circle"></i>
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,9 +1,8 @@
 ﻿using System;
 using Haushaltsbuch.Library.Infrastructure.Extensions;
 using Haushaltsbuch.Library.Infrastructure.Interfaces;
-using static System.Guid;
 
-namespace Haushaltsbuch.Library.Domain
+namespace Haushaltsbuch.Domain.Haushaltsbuch
 {
     public class HaushaltsbuchId : IAggregateId
     {
@@ -13,7 +12,7 @@ namespace Haushaltsbuch.Library.Domain
 
         public HaushaltsbuchId(string id)
         {
-            Id = Parse(input: id.RemovePrefix(prefix: Prefix));
+            Id = Guid.Parse(input: id.RemovePrefix(prefix: Prefix));
         }
 
         public Guid Id { get; private set; }
@@ -28,6 +27,6 @@ namespace Haushaltsbuch.Library.Domain
 
         public override int GetHashCode() => Id.GetHashCode();
 
-        public static HaushaltsbuchId NeueHaushaltsbuchId() => new HaushaltsbuchId(id: NewGuid());
+        public static HaushaltsbuchId NeueHaushaltsbuchId() => new HaushaltsbuchId(id: Guid.NewGuid());
     }
 }

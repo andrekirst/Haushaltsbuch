@@ -187,7 +187,7 @@ spec:
           value: Production
         - name: ASPNETCORE_URLS
           value: http://*:80
-        - name: WEBAPI_CONNECTIONSTRING
+        - name: WEBAPI_HAUSHALTSBUCH_CONNECTIONSTRING
           value: http://webapi:5200/api/
         image: andrekirst/haushaltsbuchuiweb:v2
         name: uiweb

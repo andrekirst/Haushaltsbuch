@@ -1,0 +1,26 @@
+﻿@using Haushaltsbuch.UI.Web.Extensions
+@model Haushaltsbuch.UI.Web.Areas.Haushaltsbuch.Models.EventsIndexViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData[index: "Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Event</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (string eventData in Model.Events)
+        {
+            <tr>
+                <td>
+                    <pre>@eventData.FormatJson()</pre>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

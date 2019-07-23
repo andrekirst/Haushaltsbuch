@@ -1,0 +1,97 @@
+﻿@model Haushaltsbuch.UI.Web.Areas.Haushaltsbuch.Models.AuszahlungAddViewModel
+@addTagHelper *, Haushaltsbuch.UI.Web
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData[index: "Title"] = "Neue Auszahlung";
+}
+
+<h1>Neue Auszahlung</h1>
+<label>Haushaltsbuch:</label>
+<a href="@Url.Action(
+             action: "Detail",
+             controller: "Haushaltsbuch",
+             values: new
+             {
+                 haushaltsbuchId = Model.HaushaltsbuchId
+             })" class="btn-link">
+    @Model.HaushaltsbuchName
+</a>
+
+<div class="mb-2"></div>
+
+<form asp-action="Save">
+    @Html.HiddenFor(expression: m => m.HaushaltsbuchId)
+
+    <div class="container">
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="betrag">Betrag</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(expression: m => m.Betrag, htmlAttributes: new
+                        {
+                            type = "number",
+                            @class = "form-control",
+                            id = "betrag",
+                            aria_label = "Betrag",
+                            aria_describedby = "basic-addon2"
+                        })
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><currency currency-name="@Model.WährungName" fallback-symbol="@Model.WährungSymbol"></currency></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="auszahlungsdatum">Auszahlungsdatum</label>
+                    @Html.TextBoxFor(expression: m => m.Auszahlungsdatum, htmlAttributes: new
+                    {
+                        type = "date",
+                        @class = "form-control",
+                        id = "auszahlungsdatum"
+                    })
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="kategorie">Kategorie</label>
+                    @Html.TextBoxFor(expression: m => m.Kategorie, htmlAttributes: new
+                    {
+                        @class = "form-control",
+                        id = "kategorie"
+                    })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="memotext">Memotext</label>
+
+                    @Html.TextAreaFor(expression: m => m.Memotext, htmlAttributes: new
+                    {
+                        @class = "form-control",
+                        id = "memotext"
+                    })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary">Hinzufügen</button>
+            <a href="@Url.Action(
+                         action: "Detail",
+                         controller: "Haushaltsbuch",
+                         values: new
+                         {
+                             haushaltsbuchId = Model.HaushaltsbuchId
+                         })" class="btn btn-outline-danger ml-2">
+                Zum Haushaltsbuch
+            </a>
+        </div>
+    </div>
+</form>

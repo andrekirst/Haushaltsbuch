@@ -1,4 +1,4 @@
-﻿namespace Haushaltsbuch.WebApi.Models.Dto
+﻿namespace Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto
 {
     public class Währung
     {

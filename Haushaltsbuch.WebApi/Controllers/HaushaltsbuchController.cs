@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Domain;
-using Haushaltsbuch.Library.Domain.Services;
-using Haushaltsbuch.WebApi.Models.Dto.Commands;
+using Haushaltsbuch.Domain.Haushaltsbuch;
+using Haushaltsbuch.Domain.Haushaltsbuch.Services;
+using Haushaltsbuch.WebApi.Haushaltsbuch.Models.Dto.Commands;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Haushaltsbuch.WebApi.Controllers
+namespace Haushaltsbuch.WebApi.Haushaltsbuch.Controllers
 {
     [Route(template: "api/[controller]")]
     [ApiController]
@@ -24,19 +24,19 @@ namespace Haushaltsbuch.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Library.Domain.ReadModel.Haushaltsbuch>>> Get()
+        public async Task<ActionResult<List<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>>> Get()
         {
             return (await HaushaltsbuchReader.GetAllAsync()).ToList();
         }
 
         [HttpGet(template: "{haushaltsbuchId}")]
         [Route(template: "HaushaltsbuchById")]
-        public async Task<ActionResult<Library.Domain.ReadModel.Haushaltsbuch>> Get(string haushaltsbuchId) =>
+        public async Task<ActionResult<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>> Get(string haushaltsbuchId) =>
             await HaushaltsbuchReader.GetByIdAsync(id: haushaltsbuchId);
 
         [HttpGet(template: "search")]
         [Route(template: "HaushaltsbuchByName")]
-        public async Task<ActionResult<Library.Domain.ReadModel.Haushaltsbuch>> GetByName([FromQuery] string name) =>
+        public async Task<ActionResult<Domain.Haushaltsbuch.ReadModel.Haushaltsbuch>> GetByName([FromQuery] string name) =>
             await HaushaltsbuchReader.GetByName(name: name);
 
         [HttpPost]

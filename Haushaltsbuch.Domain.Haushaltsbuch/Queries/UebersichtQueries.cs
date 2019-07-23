@@ -2,7 +2,7 @@
 using Haushaltsbuch.Library.Infrastructure.Extensions;
 using MongoDB.Driver;
 
-namespace Haushaltsbuch.Library.Domain.Queries
+namespace Haushaltsbuch.Domain.Haushaltsbuch.Queries
 {
     public class UebersichtQueries : IUebersichtQueries
     {
