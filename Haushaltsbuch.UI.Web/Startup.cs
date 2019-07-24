@@ -2,14 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using FluentTimeSpan;
+using Haushaltsbuch.UI.Web.Models;
 using Haushaltsbuch.UI.Web.Services;
+using Haushaltsbuch.WebApi.Benutzerkonto.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Haushaltsbuch.UI.Web
 {
@@ -29,7 +36,14 @@ namespace Haushaltsbuch.UI.Web
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddIdentity<Benutzerkonto, Benutzerrolle>()
+                .AddDefaultTokenProviders();
+
+            services.AddTransient<IUserStore<Benutzerkonto>, UserStore>();
+            services.AddTransient<IRoleStore<Benutzerrolle>, RoleStore>();
 
             services.AddResponseCaching();
             services.AddResponseCompression();
@@ -56,16 +70,39 @@ namespace Haushaltsbuch.UI.Web
                 .AddViewLocalization(format: LanguageViewLocationExpanderFormat.SubFolder);
             services
                 .AddAuthentication()
-                .AddMicrosoftAccount(configureOptions: microsoftOptions =>
-                {
-                    string clientid = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTID") ??
-                                      Configuration[key: "Authentication:Microsoft:ClientId"];
-                    microsoftOptions.ClientId = clientid;
+                .AddOpenIdConnect(authenticationScheme: "Azure AD / Microsoft", displayName: "Azure AD / Microsoft", configureOptions:
+                    options =>
+                    {
+                        options.ClientId = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTID") ??
+                                           Configuration[key: "Authentication:Microsoft:ClientId"];
+                        options.ClientSecret = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTSECRET") ??
+                                               Configuration[key: "Authentication:Microsoft:ClientSecret"];
+                        options.SignInScheme = "Identity.External";
+                        options.RemoteAuthenticationTimeout = 30.Seconds();
+                        options.Authority = "https://login.microsoftonline.com/common/v2.0/";
+                        options.ResponseType = "code";
+                        options.UseTokenLifetime = true;
+                        options.Scope.Add("profile");
+                        options.Scope.Add("email");
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = false,
+                            NameClaimType = "email"
+                        };
+                        options.CallbackPath = "/signin-microsoft";
+                        options.Prompt = "login";
+                    });
 
-                    string clientSecret = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTSECRET") ??
-                                          Configuration[key: "Authentication:Microsoft:ClientSecret"];
-                    microsoftOptions.ClientSecret = clientSecret;
-                });
+                //.AddMicrosoftAccount(configureOptions: microsoftOptions =>
+                //{
+                //    string clientid = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTID") ??
+                //                      Configuration[key: "Authentication:Microsoft:ClientId"];
+                //    microsoftOptions.ClientId = clientid;
+
+                //    string clientSecret = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTSECRET") ??
+                //                          Configuration[key: "Authentication:Microsoft:ClientSecret"];
+                //    microsoftOptions.ClientSecret = clientSecret;
+                //});
 
             services.AddTransient<IHaushaltsbuchService, HaushaltsbuchService>();
             services.AddTransient<IEventsService, EventsService>();
@@ -75,6 +112,12 @@ namespace Haushaltsbuch.UI.Web
                 client.DefaultRequestHeaders.Add(name: "Accept", value: "application/json");
                 client.DefaultRequestHeaders.Add(name: "User-Agent", value: "Haushaltsbuch.UI.Web");
             });
+
+
+            services.Configure<ForwardedHeadersOptions>(configureOptions: options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +125,9 @@ namespace Haushaltsbuch.UI.Web
         {
             app.UseResponseCaching();
             app.UseResponseCompression();
+            app.UseForwardedHeaders();
+
+            app.UseAuthentication();
 
             if (env.IsDevelopment())
             {

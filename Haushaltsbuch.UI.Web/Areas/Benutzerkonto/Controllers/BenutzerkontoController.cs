@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +21,22 @@ namespace Haushaltsbuch.UI.Web.Areas.Benutzerkonto.Controllers
             return View();
         }
 
-        public IActionResult LoginMicrosoft(string redirectUri)
+        public IActionResult LoginGoogle(string redirectUri)
         {
             return Challenge(properties: new AuthenticationProperties
-                {
-                    RedirectUri = redirectUri
-                },
-                MicrosoftAccountDefaults.AuthenticationScheme);
+            {
+                RedirectUri = redirectUri
+            },
+            GoogleDefaults.AuthenticationScheme);
+        }
+
+        public IActionResult LoginMicrosoft(string redirectUri = null)
+        {
+            return Challenge(properties: new AuthenticationProperties
+            {
+                RedirectUri = redirectUri
+            },
+            "Azure AD / Microsoft");
         }
 
         public IActionResult LogoutMicrosoft(string callbackUrl)

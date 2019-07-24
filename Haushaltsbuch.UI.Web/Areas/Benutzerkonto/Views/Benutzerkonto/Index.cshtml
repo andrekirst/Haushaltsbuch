@@ -1,11 +1,65 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
-<a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginMicrosoft" asp-route-redirectUri="http://www.google.de">
-    <i class="fab fa-windows"></i>
-    <span>Microsoft-Authentifizierung</span>
-</a>
+<div class="align-content-center">
+    <div class="list-group w-50 text-center list-group-flush">
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginMicrosoft"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-windows"></i>
+            <span>Microsoft-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginGoogle"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-google"></i>
+            <span>Google-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginFacebook"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginTwitter"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-twitter"></i>
+            <span>Twitter-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginTwitter"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-reddit-alien"></i>
+            <span>Reddit-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginInstagram"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginGithub"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-github"></i>
+            <span>Github-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginPinterest"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-pinterest"></i>
+            <span>Pinterest-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginDribble"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-dribbble"></i>
+            <span>Dribble-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginFlickr"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-flickr"></i>
+            <span>Flickr-Authentifizierung</span>
+        </a>
+        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginTumblr"
+           class="list-group-item list-group-item-action">
+            <i class="fab fa-tumblr"></i>
+            <span>tumblr-Authentifizierung</span>
+        </a>
+    </div>
+</div>
