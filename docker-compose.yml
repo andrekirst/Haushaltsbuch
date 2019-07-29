@@ -5,7 +5,6 @@ services:
     image: mongo
     container_name: mongodb
     hostname: mongodb
-    restart: always
     volumes:
       - data.mongodb:/etc/mongo
     ports:
@@ -18,7 +17,6 @@ services:
     image: eventstore/eventstore:latest
     container_name: eventstore
     hostname: eventstore
-    restart: always
     ports:
       - "1113:1113"
       - "2113:2113"
@@ -29,7 +27,6 @@ services:
     image: andrekirst/haushaltsbuchwebapi:v2
     container_name: webapi
     hostname: webapi
-    restart: always
     ports:
       - "5201:5201"
       - "5200:5200"
@@ -44,7 +41,6 @@ services:
     image: andrekirst/haushaltsbuchuiweb:v2
     container_name: uiweb
     hostname: uiweb
-    restart: always
     ports:
       # - "443:443"
       - "80:80"

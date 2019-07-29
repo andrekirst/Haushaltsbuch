@@ -1,65 +1,100 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@using Haushaltsbuch.WebApi.Benutzerkonto.Models
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject SignInManager<Benutzerkonto> SignInManager
+@inject UserManager<Benutzerkonto> UserManager
+@{
+    ViewData["Title"] = Localizer[name: "Titel_Registrierung"];
 }
 
-<h1>Index</h1>
+<style type="text/css">
+    @@media (max-width: 767px) {
+        .hb-border {
+            border-top: 1px solid #dee2e6 !important;
+        }
+    }
 
-<div class="align-content-center">
-    <div class="list-group w-50 text-center list-group-flush">
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginMicrosoft"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-windows"></i>
-            <span>Microsoft-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginGoogle"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-google"></i>
-            <span>Google-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginFacebook"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-facebook-f"></i>
-            <span>Facebook-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginTwitter"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-twitter"></i>
-            <span>Twitter-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginTwitter"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-reddit-alien"></i>
-            <span>Reddit-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginInstagram"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-instagram"></i>
-            <span>Instagram-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginGithub"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-github"></i>
-            <span>Github-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginPinterest"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-pinterest"></i>
-            <span>Pinterest-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginDribble"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-dribbble"></i>
-            <span>Dribble-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginFlickr"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-flickr"></i>
-            <span>Flickr-Authentifizierung</span>
-        </a>
-        <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="LoginTumblr"
-           class="list-group-item list-group-item-action">
-            <i class="fab fa-tumblr"></i>
-            <span>tumblr-Authentifizierung</span>
-        </a>
+    @@media (min-width: 768px) {
+        .hb-border {
+            border-left: 1px solid #dee2e6 !important;
+        }
+    }
+
+    .hb-farbe-check {
+        color: green;
+    }
+</style>
+
+@if (SignInManager.IsSignedIn(principal: User))
+{
+    <a asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="Abmelden"
+       class="btn btn-danger">@Localizer[name: "Button_Abmelden"]</a>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 py-4">
+            <h4>@Localizer[name: "Anmeldedaten_eingeben"]</h4>
+            <form asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="Anmelden">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input id="EMailAnmeldenummer" name="EMailAnmeldenummer" class="form-control" placeholder="@Localizer[name: "Platzhalter_EMail_oder_Anmeldenummer"]">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input id="Passwort" name="Passwort" type="password" class="form-control" placeholder="@Localizer[name: "Platzhalter_Passwort"]">
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <button type="submit" class="btn btn-success ml-1 mt-2">@Localizer[name: "Button_Anmelden"]</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 py-4 hb-border">
+            <h4>@Localizer[name: "Daten_eingeben"]</h4>
+            <form asp-area="Benutzerkonto"
+                  asp-controller="Benutzerkonto"
+                  asp-action="Registrierung"
+                  asp-route-returnurl="@ViewData[index: "ReturnUrl"]"
+                  method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input type="email" id="EMail" name="EMail" class="form-control" placeholder="@Localizer[name: "Platzhalter_EMail"]">
+                        <small class="form-text text-muted ml-1 mr-1">
+                            Die Angabe einer EMail-Adresse ist <span class="font-weight-bold text-underline">keine</span> Pflicht. Sie bekommen bei der Registrierung eine <span class="font-weight-bold">Anmeldenummer</span>, mit der Sie sich unter anderem anmelden können. Allerdings ist die Funktion der Passwort-Zurücksetzung dadurch <span class="font-weight-bold text-underline">nicht</span> möglich.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input type="password" id="Passwort" name="Passwort" class="form-control" placeholder="@Localizer[name: "Platzhalter_Passwort"]">
+                        <div class="text-muted form-text small">
+                            <span>Mindestens:</span>
+                            <ul>
+                                <li>8 Zeichen<span id="validator-anzahl-zeichen" class="d-none">&nbsp;<i class="fas fa-check hb-farbe-check"></i></span></li>
+                                <li>Ein Kleinbuchstabe<span id="validator-ein-kleinbuchstabe" class="d-none">&nbsp;<i class="fas fa-check hb-farbe-check"></i></span></li>
+                                <li>Ein Großbuchstabe<span id="validator-ein-hroßbuchstabe" class="d-none">&nbsp;<i class="fas fa-check hb-farbe-check"></i></span></li>
+                                <li>Eine Zahl<span id="validator-eine-zahl" class="d-none">&nbsp;<i class="fas fa-check hb-farbe-check"></i></span></li>
+                                <li>Ein Sonderzeichen<span id="validator-ein-sonderzeichen" class="d-none">&nbsp;<i class="fas fa-check hb-farbe-check"></i></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input type="password" id="PasswortWiederholen" name="PasswortWiederholen" class="form-control" placeholder="@Localizer[name: "Platzhalter_PasswortWiederholen"]">
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <button type="submit" class="btn btn-success ml-1 mt-2">@Localizer[name: "Button_Registrieren"]</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+}
+
+<script type="text/javascript"></script>

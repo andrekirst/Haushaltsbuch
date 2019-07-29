@@ -4,15 +4,14 @@ using System.Threading.Tasks;
 using Haushaltsbuch.WebApi.Benutzerkonto.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Haushaltsbuch.UI.Web.Services
+namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
 {
     public class RoleStore :
         IRoleStore<Benutzerrolle>,
-        IUserRoleStore<Benutzerkonto>
+        IUserRoleStore<WebApi.Benutzerkonto.Models.Benutzerkonto>
     {
         public void Dispose()
         {
-            throw new System.NotImplementedException();
         }
 
         public Task<IdentityResult> CreateAsync(Benutzerrolle role, CancellationToken cancellationToken)
@@ -25,52 +24,52 @@ namespace Haushaltsbuch.UI.Web.Services
             throw new System.NotImplementedException();
         }
 
-        public Task<IdentityResult> CreateAsync(Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<IdentityResult> CreateAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IdentityResult> DeleteAsync(Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<IdentityResult> DeleteAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<Benutzerkonto> IUserStore<Benutzerkonto>.FindByIdAsync(string userId, CancellationToken cancellationToken)
+        Task<WebApi.Benutzerkonto.Models.Benutzerkonto> IUserStore<WebApi.Benutzerkonto.Models.Benutzerkonto>.FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<Benutzerkonto> IUserStore<Benutzerkonto>.FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        Task<WebApi.Benutzerkonto.Models.Benutzerkonto> IUserStore<WebApi.Benutzerkonto.Models.Benutzerkonto>.FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<string> GetNormalizedUserNameAsync(Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<string> GetNormalizedUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<string> GetUserIdAsync(Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<string> GetUserIdAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<string> GetUserNameAsync(Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<string> GetUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task SetNormalizedUserNameAsync(Benutzerkonto user, string normalizedName, CancellationToken cancellationToken)
+        public Task SetNormalizedUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string normalizedName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task SetUserNameAsync(Benutzerkonto user, string userName, CancellationToken cancellationToken)
+        public Task SetUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string userName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IdentityResult> UpdateAsync(Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<IdentityResult> UpdateAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
@@ -115,27 +114,27 @@ namespace Haushaltsbuch.UI.Web.Services
             throw new System.NotImplementedException();
         }
 
-        public Task AddToRoleAsync(Benutzerkonto user, string roleName, CancellationToken cancellationToken)
+        public Task AddToRoleAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string roleName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IList<string>> GetRolesAsync(Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<IList<string>> GetRolesAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IList<Benutzerkonto>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
+        public Task<IList<WebApi.Benutzerkonto.Models.Benutzerkonto>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> IsInRoleAsync(Benutzerkonto user, string roleName, CancellationToken cancellationToken)
+        public Task<bool> IsInRoleAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string roleName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task RemoveFromRoleAsync(Benutzerkonto user, string roleName, CancellationToken cancellationToken)
+        public Task RemoveFromRoleAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string roleName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }

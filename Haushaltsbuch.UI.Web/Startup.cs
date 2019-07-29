@@ -5,6 +5,7 @@ using System.Globalization;
 using FluentTimeSpan;
 using Haushaltsbuch.UI.Web.Models;
 using Haushaltsbuch.UI.Web.Services;
+using Haushaltsbuch.UI.Web.Services.Benutzerkonto;
 using Haushaltsbuch.WebApi.Benutzerkonto.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,7 +41,36 @@ namespace Haushaltsbuch.UI.Web
             });
 
             services.AddIdentity<Benutzerkonto, Benutzerrolle>()
-                .AddDefaultTokenProviders();
+                .AddUserStore<UserStore>()
+                .AddRoleStore<RoleStore>()
+                .AddUserManager<UserManager<Benutzerkonto>>()
+                .AddSignInManager<SignInManager<Benutzerkonto>>();
+
+            services.Configure<IdentityOptions>(configureOptions: options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 1;
+
+                options.Lockout.DefaultLockoutTimeSpan = 5.Minutes();
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.AllowedForNewUsers = true;
+
+                options.User.AllowedUserNameCharacters = "0123456789";
+                options.User.RequireUniqueEmail = true;
+            });
+
+            services.ConfigureApplicationCookie(configure: options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = 5.Minutes();
+                options.LoginPath = "/Benutzerkonto/Benutzerkonto/Anmelden";
+                options.AccessDeniedPath = "/Benutzerkonto/Benutzerkonto/ZugriffVerweigert";
+                options.SlidingExpiration = true;
+            });
 
             services.AddTransient<IUserStore<Benutzerkonto>, UserStore>();
             services.AddTransient<IRoleStore<Benutzerrolle>, RoleStore>();
@@ -53,11 +83,16 @@ namespace Haushaltsbuch.UI.Web
                 localizationOptions.ResourcesPath = "Resources";
             });
 
-            string webApiConnectionString = Environment.GetEnvironmentVariable(variable: "WEBAPI_HAUSHALTSBUCH_CONNECTIONSTRING") ??
+            string webApiHaushaltsbuchConnectionString = Environment.GetEnvironmentVariable(variable: "WEBAPI_HAUSHALTSBUCH_CONNECTIONSTRING") ??
                                             Configuration
                                                 .GetSection(key: "WebApi")
                                                 .GetSection(key: "Haushaltsbuch")
                                                 .GetValue<string>(key: "ConnectionString");
+            string webApiBenutzerkontoConnectionString = Environment.GetEnvironmentVariable(variable: "WEBAPI_BENUTZERKONTO_CONNECTIONSTRING") ??
+                                                         Configuration
+                                                             .GetSection(key: "WebApi")
+                                                             .GetSection(key: "Benutzerkonto")
+                                                             .GetValue<string>(key: "ConnectionString");
 
             foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables(target: EnvironmentVariableTarget.Process))
             {
@@ -68,51 +103,23 @@ namespace Haushaltsbuch.UI.Web
                 .AddViewLocalization(format: LanguageViewLocationExpanderFormat.SubFolder);
             services.AddRazorPages()
                 .AddViewLocalization(format: LanguageViewLocationExpanderFormat.SubFolder);
-            services
-                .AddAuthentication()
-                .AddOpenIdConnect(authenticationScheme: "Azure AD / Microsoft", displayName: "Azure AD / Microsoft", configureOptions:
-                    options =>
-                    {
-                        options.ClientId = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTID") ??
-                                           Configuration[key: "Authentication:Microsoft:ClientId"];
-                        options.ClientSecret = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTSECRET") ??
-                                               Configuration[key: "Authentication:Microsoft:ClientSecret"];
-                        options.SignInScheme = "Identity.External";
-                        options.RemoteAuthenticationTimeout = 30.Seconds();
-                        options.Authority = "https://login.microsoftonline.com/common/v2.0/";
-                        options.ResponseType = "code";
-                        options.UseTokenLifetime = true;
-                        options.Scope.Add("profile");
-                        options.Scope.Add("email");
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = false,
-                            NameClaimType = "email"
-                        };
-                        options.CallbackPath = "/signin-microsoft";
-                        options.Prompt = "login";
-                    });
-
-                //.AddMicrosoftAccount(configureOptions: microsoftOptions =>
-                //{
-                //    string clientid = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTID") ??
-                //                      Configuration[key: "Authentication:Microsoft:ClientId"];
-                //    microsoftOptions.ClientId = clientid;
-
-                //    string clientSecret = Environment.GetEnvironmentVariable(variable: "AUTHENTICATION_MICROSOFT_CLIENTSECRET") ??
-                //                          Configuration[key: "Authentication:Microsoft:ClientSecret"];
-                //    microsoftOptions.ClientSecret = clientSecret;
-                //});
 
             services.AddTransient<IHaushaltsbuchService, HaushaltsbuchService>();
             services.AddTransient<IEventsService, EventsService>();
-            services.AddHttpClient(name: "HaushaltsbuchAPI", configureClient: client =>
+            services.AddTransient<IBenutzerkontoService, BenutzerkontoService>();
+            services.AddHttpClient(name: "HaushaltsbuchAPI.Haushaltsbuch", configureClient: client =>
             {
-                client.BaseAddress = new Uri(uriString: webApiConnectionString);
+                client.BaseAddress = new Uri(uriString: webApiHaushaltsbuchConnectionString);
                 client.DefaultRequestHeaders.Add(name: "Accept", value: "application/json");
                 client.DefaultRequestHeaders.Add(name: "User-Agent", value: "Haushaltsbuch.UI.Web");
             });
 
+            services.AddHttpClient(name: "HaushaltsbuchAPI.Benutzerkonto", configureClient: client =>
+            {
+                client.BaseAddress = new Uri(uriString: webApiBenutzerkontoConnectionString);
+                client.DefaultRequestHeaders.Add(name: "Accept", value: "application/json");
+                client.DefaultRequestHeaders.Add(name: "User-Agent", value: "Haushaltsbuch.UI.Web");
+            });
 
             services.Configure<ForwardedHeadersOptions>(configureOptions: options =>
             {

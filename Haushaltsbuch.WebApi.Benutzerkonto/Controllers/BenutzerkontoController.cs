@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Haushaltsbuch.WebApi.Benutzerkonto.Controllers
@@ -11,5 +7,17 @@ namespace Haushaltsbuch.WebApi.Benutzerkonto.Controllers
     [ApiController]
     public class BenutzerkontoController : ControllerBase
     {
+        public BenutzerkontoController()
+        {
+        }
+
+        [HttpGet(template: "findbyname/{anmeldenummer}")]
+        public async Task<ActionResult<Models.Benutzerkonto>> FindByName(string anmeldenummer)
+        {
+            return new ActionResult<Models.Benutzerkonto>(new Models.Benutzerkonto()
+            {
+                Email = "test@test.de"
+            });
+        }
     }
 }

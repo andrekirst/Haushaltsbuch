@@ -115,6 +115,6 @@ namespace Haushaltsbuch.UI.Web.Services
             return response.IsSuccessStatusCode;
         }
 
-        private HttpClient Client => HttpClientFactory.CreateClient(name: "HaushaltsbuchAPI");
+        private HttpClient Client => HttpClientFactory.CreateClient(name: "HaushaltsbuchAPI.Haushaltsbuch");
     }
 }

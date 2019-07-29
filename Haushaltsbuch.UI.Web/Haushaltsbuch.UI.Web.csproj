@@ -28,8 +28,4 @@
     <ProjectReference Include="..\Haushaltsbuch.WebApi\Haushaltsbuch.WebApi.Haushaltsbuch.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Benutzerkonto\Models\" />
-  </ItemGroup>
-
 </Project>
