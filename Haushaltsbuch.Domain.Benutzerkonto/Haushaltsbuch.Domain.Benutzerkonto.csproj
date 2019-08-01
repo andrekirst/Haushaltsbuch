@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="DomainEvents\" />
-    <Folder Include="EventHandlers\" />
-    <Folder Include="ReadModel\" />
+    <ProjectReference Include="..\Haushaltsbuch.Library\Haushaltsbuch.Library.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Haushaltsbuch.Library.Infrastructure.Implementations;
+using Haushaltsbuch.Library.Infrastructure.Interfaces;
+using Haushaltsbuch.Library.Infrastructure.Interfaces.Persistance;
 using MongoDB.Driver;
 
-namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance
+namespace Haushaltsbuch.Library.Infrastructure.Implementations.Persistance
 {
     public class MongoDbRepository<TReadEntity> : IRepository<TReadEntity>
         where TReadEntity : IReadEntity

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance
+namespace Haushaltsbuch.Library.Infrastructure.Interfaces.Persistance
 {
     public interface IRepository<T> : IReadOnlyRepository<T>
         where T : IReadEntity

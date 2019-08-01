@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Haushaltsbuch.Domain.Haushaltsbuch.DomainEvents;
-using Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance;
-using Haushaltsbuch.Domain.Haushaltsbuch.Services;
+using Haushaltsbuch.Library.Infrastructure.Interfaces;
+using Haushaltsbuch.Library.Infrastructure.Interfaces.Persistance;
 
 namespace Haushaltsbuch.Domain.Haushaltsbuch.EventHandlers
 {

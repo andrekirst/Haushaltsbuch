@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Haushaltsbuch.UI.Web.Areas.Benutzerkonto.Models;
-using Microsoft.AspNetCore.Authentication;
+using Haushaltsbuch.UI.Web.Services.Benutzerkonto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,19 +16,26 @@ namespace Haushaltsbuch.UI.Web.Areas.Benutzerkonto.Controllers
     {
         private SignInManager<WebApi.Benutzerkonto.Models.Benutzerkonto> SignInManager { get; }
         private UserManager<WebApi.Benutzerkonto.Models.Benutzerkonto> UserManager { get; }
+        private IBenutzerkontoService BenutzerkontoService { get; }
 
         public BenutzerkontoController(
             SignInManager<WebApi.Benutzerkonto.Models.Benutzerkonto> signInManager,
-            UserManager<WebApi.Benutzerkonto.Models.Benutzerkonto> userManager)
+            UserManager<WebApi.Benutzerkonto.Models.Benutzerkonto> userManager,
+            IBenutzerkontoService benutzerkontoService)
         {
             SignInManager = signInManager;
             UserManager = userManager;
+            BenutzerkontoService = benutzerkontoService;
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Index(IEnumerable<IdentityError> errors = null)
         {
-            return View();
+            BenutzerkontoIndexViewModel viewModel = new BenutzerkontoIndexViewModel
+            {
+                Errors = errors
+            };
+            return View(viewName: "Index", model: viewModel);
         }
 
         [AllowAnonymous]
@@ -36,38 +45,55 @@ namespace Haushaltsbuch.UI.Web.Areas.Benutzerkonto.Controllers
             SignInResult result = await SignInManager.PasswordSignInAsync(
                 userName: benutzerkontoAnmeldenModel.EMailAnmeldenummer,
                 password: benutzerkontoAnmeldenModel.Passwort, 
-                isPersistent: true, 
+                isPersistent: false, 
                 lockoutOnFailure: true);
 
-            return result.Succeeded
-                ? RedirectToAction(actionName: "Index", controllerName: "Home")
-                : RedirectToAction(actionName: "Index");
+            if (result.Succeeded)
+            {
+                return Redirect(url: "/");
+            }
+
+            List<IdentityError> errors = new List<IdentityError>()
+            {
+                new IdentityError {Code = "COULD_NOT_LOGON", Description = "Anmeldung war nicht erfolgreich"}
+            };
+
+            return Index(errors: errors);
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Registrierung(BenutzerkontoRegistrierenModel benutzerkontoRegistrierenModel)
+        public async Task<IActionResult> Registrierung(BenutzerkontoRegistrierenModel model)
         {
-            IdentityResult identity = await UserManager.CreateAsync(user: new WebApi.Benutzerkonto.Models.Benutzerkonto()
-                {
-                },
-                password: benutzerkontoRegistrierenModel.Passwort);
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            string anmeldenummer = await BenutzerkontoService.GenerateAnmeldenummer(cancellationToken: cancellationTokenSource.Token);
+
+            WebApi.Benutzerkonto.Models.Benutzerkonto benutzerkonto = new WebApi.Benutzerkonto.Models.Benutzerkonto()
+            {
+                Email = model.EMail,
+                UserName = anmeldenummer
+            };
+
+            IdentityResult identity = await UserManager.CreateAsync(user: benutzerkonto,
+                password: model.Passwort);
             if (identity.Succeeded)
             {
-                var result = await SignInManager.PasswordSignInAsync(
-                    userName: benutzerkontoRegistrierenModel.EMail,
-                    password: benutzerkontoRegistrierenModel.Passwort,
-                    isPersistent: true,
+                SignInResult result = await SignInManager.PasswordSignInAsync(
+                    userName: model.EMail,
+                    password: model.Passwort,
+                    isPersistent: false,
                     lockoutOnFailure: true);
                 return result.Succeeded
                     ? RedirectToAction(actionName: "Index", controllerName: "Home")
                     : RedirectToAction(actionName: "Index");
             }
 
-            return Ok();
+            return RedirectToAction(actionName: "Index", routeValues: new
+            {
+                ErrorMessages = identity.Errors
+            });
         }
 
-        [HttpPost]
         public async Task<IActionResult> Abmelden()
         {
             await SignInManager.SignOutAsync();

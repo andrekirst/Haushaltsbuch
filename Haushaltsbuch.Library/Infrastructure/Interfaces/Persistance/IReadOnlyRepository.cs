@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance
+namespace Haushaltsbuch.Library.Infrastructure.Interfaces.Persistance
 {
     public interface IReadOnlyRepository<T>
         where T : IReadEntity

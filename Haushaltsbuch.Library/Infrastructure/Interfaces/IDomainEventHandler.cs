@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Haushaltsbuch.Library.Infrastructure.Interfaces;
 
-namespace Haushaltsbuch.Domain.Haushaltsbuch.Services
+namespace Haushaltsbuch.Library.Infrastructure.Interfaces
 {
     public interface IDomainEventHandler<TAggregateId, TEvent>
         where TEvent : IDomainEvent<TAggregateId>

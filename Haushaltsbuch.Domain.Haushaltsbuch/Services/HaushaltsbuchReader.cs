@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Persistance;
+using Haushaltsbuch.Library.Infrastructure.Interfaces.Persistance;
 
 namespace Haushaltsbuch.Domain.Haushaltsbuch.Services
 {

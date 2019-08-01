@@ -7,10 +7,6 @@ namespace Haushaltsbuch.Domain.Haushaltsbuch.DomainEvents
         public string Name { get; private set; }
         public Währung Währung { get; private set; }
 
-        private HaushaltsbuchErstelltEvent()
-        {
-        }
-
         internal HaushaltsbuchErstelltEvent(string name, Währung währung, HaushaltsbuchId aggregateId)
             : base(aggregateId: aggregateId)
         {

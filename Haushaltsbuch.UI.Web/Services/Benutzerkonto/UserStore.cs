@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
 {
     public class UserStore :
         IUserStore<WebApi.Benutzerkonto.Models.Benutzerkonto>,
+        IUserEmailStore<WebApi.Benutzerkonto.Models.Benutzerkonto>,
         IUserClaimStore<WebApi.Benutzerkonto.Models.Benutzerkonto>,
         IUserLoginStore<WebApi.Benutzerkonto.Models.Benutzerkonto>,
         IUserRoleStore<WebApi.Benutzerkonto.Models.Benutzerkonto>,
@@ -25,9 +27,15 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
         {
         }
 
-        public Task<IdentityResult> CreateAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> CreateAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            bool successfully = await BenutzerkontoService.Registrieren(
+                anmeldenummer: user.UserName,
+                email: user.Email,
+                passwortHash: user.PasswordHash,
+                securityStamp: user.SecurityStamp);
+
+            return successfully ? IdentityResult.Success : IdentityResult.Failed();
         }
 
         public Task<IdentityResult> DeleteAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
@@ -42,7 +50,7 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
 
         public Task<WebApi.Benutzerkonto.Models.Benutzerkonto> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            return BenutzerkontoService.FindByNameAsync(
+            return BenutzerkontoService.SucheAnhandAnmeldenummer(
                 anmeldenummer: normalizedUserName,
                 cancellationToken: cancellationToken);
         }
@@ -54,17 +62,18 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
 
         public Task<string> GetUserIdAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return BenutzerkontoService.LiefereUserId(anmeldenummer: user.UserName, cancellationToken: cancellationToken);
         }
 
-        public Task<string> GetUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
+        public async Task<string> GetUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            //return BenutzerkontoService.LiefereUserName(anmeldenummer: user.UserName, cancellationToken: cancellationToken);
+            return user.UserName;
         }
 
-        public Task SetNormalizedUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string normalizedName, CancellationToken cancellationToken)
+        public async Task SetNormalizedUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string normalizedName, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            user.NormalizedUserName = normalizedName;
         }
 
         public Task SetUserNameAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string userName, CancellationToken cancellationToken)
@@ -82,9 +91,9 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
             throw new System.NotImplementedException();
         }
 
-        public Task<IList<Claim>> GetClaimsAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
+        public async Task<IList<Claim>> GetClaimsAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return new List<Claim>();
         }
 
         public Task<IList<WebApi.Benutzerkonto.Models.Benutzerkonto>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
@@ -128,9 +137,9 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
             throw new System.NotImplementedException();
         }
 
-        public Task<IList<string>> GetRolesAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
+        public async Task<IList<string>> GetRolesAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return new List<string>();
         }
 
         public Task<IList<WebApi.Benutzerkonto.Models.Benutzerkonto>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
@@ -148,29 +157,73 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
             throw new System.NotImplementedException();
         }
 
-        public Task<string> GetPasswordHashAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
+        public Task<string> GetPasswordHashAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken) =>
+            BenutzerkontoService.LieferePasswordHash(anmeldenummer: user.UserName, cancellationToken: cancellationToken);
 
         public Task<bool> HasPasswordAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task SetPasswordHashAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string passwordHash, CancellationToken cancellationToken)
+        public async Task SetPasswordHashAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string passwordHash, CancellationToken cancellationToken)
+        {
+            user.PasswordHash = passwordHash;
+        }
+
+        public async Task<string> GetSecurityStampAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
+        {
+            return user.SecurityStamp ?? await BenutzerkontoService.LiefereSecurityStamp(
+                       anmeldenummer: user.UserName,
+                       cancellationToken: cancellationToken);
+        }
+
+        public async Task SetSecurityStampAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string stamp, CancellationToken cancellationToken)
+        {
+            user.SecurityStamp = stamp;
+            //return BenutzerkontoService.SetzeSecurityStamp(anmeldenummer: user.UserName, securityStamp: stamp,
+            //    cancellationToken: cancellationToken);
+        }
+
+        public Task<WebApi.Benutzerkonto.Models.Benutzerkonto> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        {
+            return BenutzerkontoService.SucheAnhandEMail(email: normalizedEmail, cancellationToken: cancellationToken);
+        }
+
+        public async Task<string> GetEmailAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
+        {
+            return user.Email;
+            //return BenutzerkontoService.LiefereEMail(
+            //    anmeldenummer: user.UserName,
+            //    cancellationToken: cancellationToken);
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<string> GetSecurityStampAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
+        public Task<string> GetNormalizedEmailAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task SetSecurityStampAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string stamp, CancellationToken cancellationToken)
+        public Task SetEmailAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string email, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Task SetEmailConfirmedAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, bool confirmed, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task SetNormalizedEmailAsync(WebApi.Benutzerkonto.Models.Benutzerkonto user, string normalizedEmail, CancellationToken cancellationToken)
+        {
+            user.NormalizedEmail = normalizedEmail;
+            //return BenutzerkontoService.SetzeNormalisierteEMailAdresse(
+            //    anmeldenummer: user.UserName,
+            //    normalisierteEMail: normalizedEmail,
+            //    cancellationToken: cancellationToken);
         }
     }
 }

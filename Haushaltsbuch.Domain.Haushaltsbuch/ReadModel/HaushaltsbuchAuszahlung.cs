@@ -1,4 +1,5 @@
 ﻿using System;
+using Haushaltsbuch.Library.Infrastructure.Interfaces;
 
 namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel
 {

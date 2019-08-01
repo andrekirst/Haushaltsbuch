@@ -1,4 +1,6 @@
-﻿namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel
+﻿using Haushaltsbuch.Library.Infrastructure.Interfaces;
+
+namespace Haushaltsbuch.Domain.Haushaltsbuch.ReadModel
 {
     public class Haushaltsbuch : IReadEntity
     {

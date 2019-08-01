@@ -1,67 +1,77 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using Haushaltsbuch.WebApi.Benutzerkonto.Models
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Haushaltsbuch = Haushaltsbuch.Domain.Haushaltsbuch.ReadModel.Haushaltsbuch
 @using HomeIndexViewModel = Haushaltsbuch.UI.Web.Models.HomeIndexViewModel
 @inject IViewLocalizer Localizer
+@inject SignInManager<Benutzerkonto> SignInManager
 @model HomeIndexViewModel
 
 @{
     ViewData[index: "Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@Localizer[name: "Haushaltsbücher"]</h1>
+@if (SignInManager.IsSignedIn(principal: User))
+{
+    <div class="text-center">
+        <h1 class="display-4">@Localizer[name: "Haushaltsbücher"]</h1>
 
-    <p>
-        <a asp-area="Haushaltsbuch" asp-controller="Haushaltsbuch" asp-action="Add" class="btn btn-outline-success">
-            @Localizer[name: "Neues Haushaltsbuch erstellen"]
-        </a>
-    </p>
+        <p>
+            <a asp-area="Haushaltsbuch" asp-controller="Haushaltsbuch" asp-action="Add" class="btn btn-outline-success">
+                @Localizer[name: "Neues Haushaltsbuch erstellen"]
+            </a>
+        </p>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Haushaltsbuch</th>
-                <th scope="col">Kassenbestand</th>
-                <th scope="col">Aktionen</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Haushaltsbuch haushaltsbuch in Model.Haushaltsbücher)
-            {
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>@haushaltsbuch.Name</td>
-                    <td class="text-right">
-                        @if (haushaltsbuch.Kassenbestand < 0)
-                        {
-                            <span class="text-danger" style="font-weight: 600;">@haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@haushaltsbuch.WährungName" fallback-symbol="@haushaltsbuch.WährungSymbol"></currency>
-                        }
-                        else
-                        {
-                            <span style="font-weight: 600;">@haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@haushaltsbuch.WährungName" fallback-symbol="@haushaltsbuch.WährungSymbol"></currency>
-                        }
-                    </td>
-                    <td>
-                        <a asp-area="Haushaltsbuch"
-                           asp-controller="Haushaltsbuch"
-                           asp-action="Detail"
-                           asp-route-haushaltsbuchId="@haushaltsbuch.Id">Öffnen</a>
-
-                        <span class="text-muted">|</span>
-
-                        <a asp-area="Haushaltsbuch"
-                           asp-controller="Einzahlung"
-                           asp-action="Add"
-                           asp-route-haushaltsbuchId="@haushaltsbuch.Id">Einzahlen</a>
-
-                        <span class="text-muted">|</span>
-
-                        <a asp-area="Haushaltsbuch"
-                           asp-controller="Auszahlung"
-                           asp-action="Add"
-                           asp-route-haushaltsbuchId="@haushaltsbuch.Id">Auszahlen</a>
-                    </td>
+                    <th scope="col">Haushaltsbuch</th>
+                    <th scope="col">Kassenbestand</th>
+                    <th scope="col">Aktionen</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (Haushaltsbuch haushaltsbuch in Model.Haushaltsbücher)
+                {
+                    <tr>
+                        <td>@haushaltsbuch.Name</td>
+                        <td class="text-right">
+                            @if (haushaltsbuch.Kassenbestand < 0)
+                            {
+                                <span class="text-danger" style="font-weight: 600;">@haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@haushaltsbuch.WährungName" fallback-symbol="@haushaltsbuch.WährungSymbol"></currency>
+                            }
+                            else
+                            {
+                                <span style="font-weight: 600;">@haushaltsbuch.Kassenbestand.ToString(format: "#,##0.00")</span> <currency currency-name="@haushaltsbuch.WährungName" fallback-symbol="@haushaltsbuch.WährungSymbol"></currency>
+                            }
+                        </td>
+                        <td>
+                            <a asp-area="Haushaltsbuch"
+                               asp-controller="Haushaltsbuch"
+                               asp-action="Detail"
+                               asp-route-haushaltsbuchId="@haushaltsbuch.Id">Öffnen</a>
+
+                            <span class="text-muted">|</span>
+
+                            <a asp-area="Haushaltsbuch"
+                               asp-controller="Einzahlung"
+                               asp-action="Add"
+                               asp-route-haushaltsbuchId="@haushaltsbuch.Id">Einzahlen</a>
+
+                            <span class="text-muted">|</span>
+
+                            <a asp-area="Haushaltsbuch"
+                               asp-controller="Auszahlung"
+                               asp-action="Add"
+                               asp-route-haushaltsbuchId="@haushaltsbuch.Id">Auszahlen</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <a class="btn btn-outline-primary" asp-area="Benutzerkonto" asp-controller="Benutzerkonto" asp-action="Index">Zur Anmeldung / Registrierung</a>
+}
