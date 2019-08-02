@@ -119,5 +119,15 @@ namespace Haushaltsbuch.WebApi.Benutzerkonto.Controllers
                 UserName = benutzerkonto.Anmeldenummer
             };
         }
+
+        [HttpPut(template: "{anmeldenummer}/anmelden")]
+        public async Task<ActionResult> Anmelden(string anmeldenummer)
+        {
+            Domain.Benutzerkonto.ReadModel.Benutzerkonto benutzerkonto = await BenutzerkontoReader.GetByAnmeldenummer(anmeldenummer: anmeldenummer);
+
+            await BenutzerkontoWriter.Anmelden(benutzerkontoId: benutzerkonto.Id, anmeldenummer: anmeldenummer);
+
+            return Ok();
+        }
     }
 }

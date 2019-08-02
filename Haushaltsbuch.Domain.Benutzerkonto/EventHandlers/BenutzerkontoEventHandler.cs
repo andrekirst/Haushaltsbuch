@@ -9,14 +9,18 @@ namespace Haushaltsbuch.Domain.Benutzerkonto.EventHandlers
 {
     public class BenutzerkontoEventHandler :
             IDomainEventHandler<BenutzerkontoId, BenutzerkontoRegistriertEvent>,
-            IDomainEventHandler<BenutzerkontoId, EMailAdresseNormalisiertEvent>
+            IDomainEventHandler<BenutzerkontoId, EMailAdresseNormalisiertEvent>,
+            IDomainEventHandler<BenutzerkontoId, BenutzerAngemeldetEvent>
     {
         private IRepository<ReadModel.Benutzerkonto> BenutzerkontoRepository { get; }
+        private IRepository<ReadModel.BenutzerkontoAnmeldung> BenutzerkontoAnmeldungRepository { get; }
 
         public BenutzerkontoEventHandler(
-            IRepository<ReadModel.Benutzerkonto> benutzerkontoRepository)
+            IRepository<ReadModel.Benutzerkonto> benutzerkontoRepository,
+            IRepository<ReadModel.BenutzerkontoAnmeldung> benutzerkontoAnmeldungRepository)
         {
             BenutzerkontoRepository = benutzerkontoRepository;
+            BenutzerkontoAnmeldungRepository = benutzerkontoAnmeldungRepository;
         }
 
         public async Task HandleAsync(BenutzerkontoRegistriertEvent @event)
@@ -54,6 +58,19 @@ namespace Haushaltsbuch.Domain.Benutzerkonto.EventHandlers
 
             benutzerkonto.NormalisierteEMail = @event.NormalisierteEMailAdresse;
             await BenutzerkontoRepository.UpdateAsync(entity: benutzerkonto);
+        }
+
+        public async Task HandleAsync(BenutzerAngemeldetEvent @event)
+        {
+            ReadModel.Benutzerkonto benutzerkonto = await BenutzerkontoRepository.GetByIdAsync(id: @event.AggregateId.Identifier);
+            ReadModel.BenutzerkontoAnmeldung anmeldung = ReadModel.BenutzerkontoAnmeldung.CreateFor(benutzerkontoId: @event.AggregateId.Identifier);
+
+            benutzerkonto.LetzteAnmeldung = @event.Anmeldedatum;
+            anmeldung.Anmeldenummer = @event.Anmeldenummer;
+            anmeldung.Anmeldedatum = @event.Anmeldedatum;
+
+            await BenutzerkontoRepository.UpdateAsync(entity: benutzerkonto);
+            await BenutzerkontoAnmeldungRepository.InsertAsync(entity: anmeldung);
         }
     }
 }

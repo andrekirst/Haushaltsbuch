@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Haushaltsbuch.Domain.Benutzerkonto.Services
 {
@@ -8,5 +9,7 @@ namespace Haushaltsbuch.Domain.Benutzerkonto.Services
 
         Task SetzeNormalisierteEMailAdresse(string benutzerkontoId, string anmeldenummer,
             string normalisierteEMailAdresse);
+
+        Task Anmelden(string benutzerkontoId, string anmeldenummer);
     }
 }

@@ -27,5 +27,7 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
         Task<string> LiefereUserId(string anmeldenummer, CancellationToken cancellationToken);
 
         Task<string> LieferePasswordHash(string anmeldenummer, CancellationToken cancellationToken);
+
+        Task Anmelden(string anmeldenummer, CancellationToken cancellationToken);
     }
 }

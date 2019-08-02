@@ -97,6 +97,14 @@ namespace Haushaltsbuch.UI.Web.Services.Benutzerkonto
                 .Replace(oldValue: @"\u002b", newValue: "+");
         }
 
+        public async Task Anmelden(string anmeldenummer, CancellationToken cancellationToken)
+        {
+            HttpResponseMessage response = await Client.PutAsync(
+                requestUri: $"benutzerkonto/{anmeldenummer}/anmelden",
+                content: new StringContent(content: "", encoding: UTF8, mediaType: Application.Json),
+                cancellationToken: cancellationToken);
+        }
+
         private HttpClient Client => HttpClientFactory.CreateClient(name: "HaushaltsbuchAPI.Benutzerkonto");
 
         private static StringContent CreateStringContent(object value) =>

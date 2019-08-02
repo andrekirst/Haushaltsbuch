@@ -75,8 +75,17 @@ namespace Haushaltsbuch.WebApi.Benutzerkonto
             services.AddTransient<
                 IRepository<Domain.Benutzerkonto.ReadModel.Benutzerkonto>,
                 MongoDbRepository<Domain.Benutzerkonto.ReadModel.Benutzerkonto>>();
+
+            services.AddTransient<
+                IReadOnlyRepository<Domain.Benutzerkonto.ReadModel.BenutzerkontoAnmeldung>,
+                MongoDbRepository<Domain.Benutzerkonto.ReadModel.BenutzerkontoAnmeldung>>();
+            services.AddTransient<
+                IRepository<Domain.Benutzerkonto.ReadModel.BenutzerkontoAnmeldung>,
+                MongoDbRepository<Domain.Benutzerkonto.ReadModel.BenutzerkontoAnmeldung>>();
+
             services.AddTransient<IDomainEventHandler<BenutzerkontoId, BenutzerkontoRegistriertEvent>, BenutzerkontoEventHandler>();
             services.AddTransient<IDomainEventHandler<BenutzerkontoId, EMailAdresseNormalisiertEvent>, BenutzerkontoEventHandler>();
+            services.AddTransient<IDomainEventHandler<BenutzerkontoId, BenutzerAngemeldetEvent>, BenutzerkontoEventHandler>();
             services.AddTransient<IBenutzerkontoWriter, BenutzerkontoWriter>();
             services.AddTransient<IBenutzerkontoReader, BenutzerkontoReader>();
             services.AddTransient<IAnmeldenummerGenerator, AnmeldenummerGenerator>();

@@ -70,9 +70,8 @@ namespace Haushaltsbuch.Domain.Haushaltsbuch.EventHandlers
             auszahlung.Kategorie = @event.Kategorie;
             auszahlung.Memotext = @event.Memotext;
 
-            await Task.WhenAll(
-                HaushaltsbuchRepository.UpdateAsync(entity: haushaltsbuch),
-                HaushaltsbuchAuszahlungenRepository.InsertAsync(entity: auszahlung));
+            await HaushaltsbuchRepository.UpdateAsync(entity: haushaltsbuch);
+            await HaushaltsbuchAuszahlungenRepository.InsertAsync(entity: auszahlung);
         }
 
         public async Task HandleAsync(HaushaltsbuchUmbenanntEvent @event)

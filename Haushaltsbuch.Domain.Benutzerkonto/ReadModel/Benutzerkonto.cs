@@ -1,4 +1,5 @@
-﻿using Haushaltsbuch.Library.Infrastructure.Interfaces;
+﻿using System;
+using Haushaltsbuch.Library.Infrastructure.Interfaces;
 
 namespace Haushaltsbuch.Domain.Benutzerkonto.ReadModel
 {
@@ -15,5 +16,7 @@ namespace Haushaltsbuch.Domain.Benutzerkonto.ReadModel
         public string SecurityStamp { get; set; }
         
         public string NormalisierteEMail { get; set; }
+        
+        public DateTimeOffset? LetzteAnmeldung { get; set; }
     }
 }

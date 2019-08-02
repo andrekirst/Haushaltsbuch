@@ -50,6 +50,9 @@ namespace Haushaltsbuch.UI.Web.Areas.Benutzerkonto.Controllers
 
             if (result.Succeeded)
             {
+                await BenutzerkontoService.Anmelden(
+                    anmeldenummer: benutzerkontoAnmeldenModel.EMailAnmeldenummer,
+                    cancellationToken: CancellationToken.None);
                 return Redirect(url: "/");
             }
 
@@ -74,24 +77,19 @@ namespace Haushaltsbuch.UI.Web.Areas.Benutzerkonto.Controllers
                 UserName = anmeldenummer
             };
 
-            IdentityResult identity = await UserManager.CreateAsync(user: benutzerkonto,
+            IdentityResult identity = await UserManager.CreateAsync(
+                user: benutzerkonto,
                 password: model.Passwort);
+            
             if (identity.Succeeded)
             {
-                SignInResult result = await SignInManager.PasswordSignInAsync(
-                    userName: model.EMail,
-                    password: model.Passwort,
-                    isPersistent: false,
-                    lockoutOnFailure: true);
-                return result.Succeeded
-                    ? RedirectToAction(actionName: "Index", controllerName: "Home")
-                    : RedirectToAction(actionName: "Index");
+                return await Anmelden(benutzerkontoAnmeldenModel: new BenutzerkontoAnmeldenModel
+                {
+                    EMailAnmeldenummer = anmeldenummer, Passwort = model.Passwort
+                });
             }
 
-            return RedirectToAction(actionName: "Index", routeValues: new
-            {
-                ErrorMessages = identity.Errors
-            });
+            return Index(errors: identity.Errors);
         }
 
         public async Task<IActionResult> Abmelden()

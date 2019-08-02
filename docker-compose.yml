@@ -23,32 +23,32 @@ services:
     volumes:
       - data.eventstore:/var/lib/eventstore
   
-  webapi:
-    image: andrekirst/haushaltsbuchwebapi:v2
-    container_name: webapi
-    hostname: webapi
-    ports:
-      - "5201:5201"
-      - "5200:5200"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      #- ASPNETCORE_URLS=https://*:5001;http://*:5100
-      - ASPNETCORE_URLS=http://*:5200
-      - EVENTSTORE_CONNECTIONSTRING=tcp://eventstore:1113
-      - MONGODB_CONNECTIONSTRING=mongodb://root:01031990Pc@mongodb:27017
+  # webapi:
+  #   image: andrekirst/haushaltsbuchwebapi:v2
+  #   container_name: webapi
+  #   hostname: webapi
+  #   ports:
+  #     - "5201:5201"
+  #     - "5200:5200"
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Production
+  #     #- ASPNETCORE_URLS=https://*:5001;http://*:5100
+  #     - ASPNETCORE_URLS=http://*:5200
+  #     - EVENTSTORE_CONNECTIONSTRING=tcp://eventstore:1113
+  #     - MONGODB_CONNECTIONSTRING=mongodb://root:01031990Pc@mongodb:27017
   
-  uiweb:
-    image: andrekirst/haushaltsbuchuiweb:v2
-    container_name: uiweb
-    hostname: uiweb
-    ports:
-      # - "443:443"
-      - "80:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      # - ASPNETCORE_URLS=https://*:443;http://*:80
-      - ASPNETCORE_URLS=http://*:80
-      - WEBAPI_CONNECTIONSTRING=http://webapi:5200/api/
+  # uiweb:
+  #   image: andrekirst/haushaltsbuchuiweb:v2
+  #   container_name: uiweb
+  #   hostname: uiweb
+  #   ports:
+  #     # - "443:443"
+  #     - "80:80"
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Production
+  #     # - ASPNETCORE_URLS=https://*:443;http://*:80
+  #     - ASPNETCORE_URLS=http://*:80
+  #     - WEBAPI_CONNECTIONSTRING=http://webapi:5200/api/
 
 
 volumes:
